@@ -1,0 +1,9 @@
+<h1>{{ product.name }}</h1>
+
+<ul>
+  {% for comment in product.productcomment_set.all %}
+  <li>{{ comment.comment_text }}</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'products:detail' product.id %}">See product's detail</a>
