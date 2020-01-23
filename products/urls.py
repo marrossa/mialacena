@@ -5,11 +5,11 @@ from . import views
 app_name = 'products'
 urlpatterns = [
     # ex. /products/
-    path('', views.index, name='index'),
+    path('', views.IndexView.as_view(), name='index'),
     # ex. /products/2
-    path('<int:product_id>/', views.detail, name='detail'),
+    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     # ex. /products/2/comments
-    path('<int:product_id>/comments/', views.comments, name='comments'),
+    path('<int:pk>/comments/', views.CommentsView.as_view(), name='comments'),
     # ex. /products/2/comment
     path('<int:product_id>/comment/', views.comment, name='comment'),
 ]

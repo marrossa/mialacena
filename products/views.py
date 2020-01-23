@@ -1,22 +1,24 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 
-from .models import Product
+from .models import Product, ProductComment
 
+class IndexView(generic.ListView):
+    template_name = 'products/index.html'
+    context_object_name = 'products'
 
-def index(request):
-    products = Product.objects.order_by('-exp_date')
-    context = { 'products' : products }
-    return render(request, 'products/index.html', context)
+    def get_queryset(self):
+        return Product.objects.order_by('-exp_date')
 
-def detail(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'products/detail.html', {'product': product})
+class DetailView(generic.DetailView):
+    model = Product
+    template_name = 'products/detail.html'
 
-def comments(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'products/comments.html', {'product' : product})
+class CommentsView(generic.DetailView):
+    model = Product
+    template_name = 'products/comments.html'
 
 def comment(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
