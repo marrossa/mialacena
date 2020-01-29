@@ -1,9 +1,14 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 
 from .models import Product, ProductComment
+
+class IndexJsonView(View):
+    def get(self, request):
+        products = Product.objects.order_by('-exp_date').values()
+        return JsonResponse({'products':list(products)}, safe=False)
 
 class IndexView(generic.ListView):
     template_name = 'products/index.html'
