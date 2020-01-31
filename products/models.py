@@ -23,7 +23,7 @@ class Product(models.Model):
 # Description: To add additional comments or information to a
 # product.
 class ProductComment(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
     comment_text = models.TextField()
 
     def __str__(self):
