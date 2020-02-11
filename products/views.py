@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views import generic, View
+from django.forms.models import model_to_dict
 
 from .models import Product, ProductComment
 
@@ -9,6 +12,21 @@ class IndexJsonView(View):
     def get(self, request):
         products = Product.objects.order_by('-exp_date').values()
         return JsonResponse({'products':list(products)}, safe=False)
+
+class DetailJsonView(View):
+    def get(self, request, *args, **kwargs):
+        product = Product.objects.filter(pk=self.kwargs['pk']).values().first()
+        return JsonResponse({'product': product})
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateProductJsonView(View):
+    def post(self, request):
+        product = Product(name=request.POST.get('name'),
+            exp_date=request.POST.get('exp_date'),
+            description=request.POST.get('description'),
+            quantity=request.POST.get('quantity'))
+        product.save()
+        return JsonResponse({'product': model_to_dict(product)})
 
 class IndexView(generic.ListView):
     template_name = 'products/index.html'
