@@ -5,13 +5,17 @@ from . import views
 app_name = 'products'
 urlpatterns = [
     # ex. /products/
-    path('', views.IndexView.as_view(), name='index'),
-    # ex. /all_json
-    path('index_json/', views.IndexJsonView.as_view(), name='index_json'),
-    # ex. /products/2
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    # ex. /products/2/comments
-    path('<int:pk>/comments/', views.CommentsView.as_view(), name='comments'),
-    # ex. /products/2/comment
-    path('<int:product_id>/comment/', views.comment, name='comment'),
+    path('products/', views.IndexView.as_view(), name='index'),
+    # ex. products/2
+    path('products/<int:pk>/', views.DetailView.as_view(), name='detail'),
+    # ex. products/2/comments
+    path('products/<int:pk>/comments/', views.CommentsView.as_view(), name='comments'),
+    # ex. products/2/comment
+    path('products/<int:product_id>/comment/', views.comment, name='comment'),
+    # ex. api/v1/products/
+    path('api/v1/products/', views.IndexJsonView.as_view(), name='api_v1_index'),
+    # ex. api/v1/products/2
+    path('api/v1/products/<int:pk>/', views.DetailJsonView.as_view(), name='api_v1_detail'),
+    # ex. api/v1/products/create_product
+    path('api/v1/products/create_product', views.CreateProductJsonView.as_view(), name='api_v1_create_product'),
 ]
