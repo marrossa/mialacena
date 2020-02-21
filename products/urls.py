@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 app_name = 'products'
@@ -18,4 +17,6 @@ urlpatterns = [
     path('api/v1/products/<int:pk>/', views.DetailJsonView.as_view(), name='api_v1_detail'),
     # ex. api/v1/products/create_product
     path('api/v1/products/create_product', views.CreateProductJsonView.as_view(), name='api_v1_create_product'),
+    path('api/v2/products/', views.ProductListCreateAPIView.as_view(), name='api_v2_product_list_'),
+    path('api/v2/products/<int:pk>/', views.ProductDetailsAPIView.as_view(), name='api_v2_product_details'),
 ]

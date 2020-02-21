@@ -13,6 +13,16 @@ def create_product(name, days):
     time = timezone.now() + datetime.timedelta(days=days)
     return Product.objects.create(name=name, exp_date=time)
 
+class ProductIndexJsonViewTests(TestCase):
+    def test_no_products(self):
+        """
+        If no products exist, appropiate message is displayed
+        """
+        response = self.client.get(reverse('products:index_json'))
+        self.assertEquals(response.status_code, 200)
+        #self.assertContains(response, "No products available")
+        #self.assertQuerysetEqual(response.context['products'], [])
+
 class ProductIndexViewTests(TestCase):
     def test_no_products(self):
         """
